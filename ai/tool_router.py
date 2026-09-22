@@ -1,6 +1,8 @@
 from tools.college_tool import get_college_information
 from tools.weather_tool import get_weather
 from tools.robot_tool import execute_robot_command
+from tools.camera_tool import take_photo, record_video
+from safety.robot_safety import validate_robot_command
 
 
 def execute_tool(intent, user_input):
@@ -17,12 +19,15 @@ def execute_tool(intent, user_input):
         "HEAD_CENTER",
         "WAVE"
     ]:
-        return execute_robot_command(intent)
+        if validate_robot_command(intent):
+            return execute_robot_command(intent)
+
+        return "Robot command rejected for safety."
 
     elif intent == "TAKE_PHOTO":
-        return "Camera command detected."
+        return take_photo()
 
     elif intent == "RECORD_VIDEO":
-        return "Video recording command detected."
+        return record_video(40)
 
     return None
