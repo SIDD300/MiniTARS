@@ -1,6 +1,7 @@
 from intent.intent_router import detect_intent
 from tool_router import execute_tool
 from voice.speech_to_text import listen
+from voice.text_to_speech import speak
 
 
 def main():
@@ -16,13 +17,13 @@ def main():
         user_input = input("Press ENTER to speak: ")
 
         if user_input.lower().strip() == "exit":
-            print("MiniTARS: Goodbye!")
+            speak("Goodbye!")
             break
 
         spoken_text = listen()
 
         if spoken_text is None:
-            print("MiniTARS: I couldn't understand that.\n")
+            speak("I couldn't understand that.")
             continue
 
         print("You said:", spoken_text)
@@ -32,20 +33,20 @@ def main():
         print("Detected intent:", intent)
 
         if intent == "EXIT":
-            print("MiniTARS: Goodbye!")
+            speak("Goodbye!")
             break
 
         elif intent == "GREETING":
-            print("MiniTARS: Hello! How can I help you?")
+            speak("Hello! How can I help you?")
 
         else:
             response = execute_tool(intent, spoken_text)
 
             if response:
-                print("MiniTARS:", response)
+                speak(response)
 
             else:
-                print("MiniTARS: I can process that as a general question.")
+                speak("I can process that as a general question.")
 
         print()
 
